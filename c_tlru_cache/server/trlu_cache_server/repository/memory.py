@@ -1,0 +1,20 @@
+from ..model.tlru_cache import TLRU_Cache
+
+
+def init():
+    """ 
+    Initialize the cache.
+    """
+    _load_cache()
+
+
+def _load_cache():
+    """
+    load into memory the cache
+    """
+    # TODO: Load from file, recovery
+    global _cache
+
+    _cache = TLRU_Cache()
+    
+
