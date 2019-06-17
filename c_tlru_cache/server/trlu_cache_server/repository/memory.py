@@ -18,3 +18,6 @@ def _load_cache():
     _cache = TLRU_Cache()
     
 
+def get_tlru_cache():
+    global _cache
+    return  _cache
