@@ -19,12 +19,9 @@ If you want to install like a library, please generate the wheel: $python setup.
 with the command: $pip install versions-1.0.0-py3-none-any.whl
 
 
-Execution
-===============
-```python
-from versions import compare_versions
+.. code-block:: python
 
-compare_versions('1.2.3', '2.1.0') # "Version '1.2.3' is less than '2.1.0'"
-assert compare_versions('1', '2') # "Version '1' is less than '2'"
-compare_versions('1', '1.0.0') # "Version '1' is equal to '1.0.0'"
-```
+    from versions import compare_versions
+    compare_versions('1.2.3', '2.1.0') # "Version '1.2.3' is less than '2.1.0'"
+    assert compare_versions('1', '2') # "Version '1' is less than '2'"
+    compare_versions('1', '1.0.0') # "Version '1' is equal to '1.0.0'"
