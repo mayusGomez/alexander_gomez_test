@@ -92,8 +92,3 @@ def test_convert_to_version_negative_values():
     with pytest.raises(WrongVersionException):
         convert_to_sw_version('-1.-2.-3')
 
-
-'''
-def test_first_less_than_second():
-    assert convert_to_sw_version('1.2.3', '2.1.0') == "Version '1.2.3' is less than '2.1.0'"
-'''
