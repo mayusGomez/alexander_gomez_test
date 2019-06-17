@@ -1,4 +1,8 @@
+import pytest 
+
 from lines.line import XLine
+from lines.exception import WrongValuesException
+
 
 def test_first_minor_line_without_overlap():
     line_one = XLine(1,5)
@@ -54,3 +58,18 @@ def test_negative_first_content_second_with_overlap():
 
     assert line_one.detect_overlap(line_two) == True
     assert line_two.detect_overlap(line_one) == True
+
+
+def test_character_validation():
+    with pytest.raises(ValueError):
+        line_two = XLine('a',25)
+
+
+def test_point():
+    with pytest.raises(WrongValuesException):
+        line_one = XLine(1,1)
+        
+
+def test_x2_minor_than_x1():
+    with pytest.raises(WrongValuesException):
+        line_one = XLine(5,1)

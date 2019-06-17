@@ -3,15 +3,19 @@ XLine Class
 Allow build Line X-axis object (x1, x2)
 """
 
-from exception import WrongValuesException
+from lines.exception import WrongValuesException
 
 class XLine:
     def __init__(self, x1, x2):
         """
         Init Class with first and second point
         """
-        self.x1 = x1
-        self.x2 = x2
+        self.x1 = int(x1)
+        self.x2 = int(x2)
+
+        # Validate a minor than b
+        if self.x1 >= self.x2:
+            raise  WrongValuesException('x1 must be less than x2')
 
     def detect_overlap(self, xlin):
         """
