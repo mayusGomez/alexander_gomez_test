@@ -52,6 +52,18 @@ def test_first_content_second_with_overlap():
     assert line_two.detect_overlap(line_one) == True
 
 
+def test_invalid_instance_line_two():
+    line_one = XLine(1,200)
+    line_two = {
+        'a': 1,
+        'b': 2
+    }
+
+    with pytest.raises(WrongValuesException):
+        assert line_one.detect_overlap(line_two)
+
+
+
 def test_negative_first_content_second_with_overlap():
     line_one = XLine(-100,200)
     line_two = XLine(20,25)

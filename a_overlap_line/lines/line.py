@@ -24,6 +24,10 @@ class XLine:
         :return boolean: True whether they overlap, and False otherwise
         :raise WrongValuesException: For non numeric values, decimal values or not line(point)  
         """
+
+        if not isinstance(xlin, XLine):
+            raise WrongValuesException('Second line to compare must be an instance of XLine')
+
         line_minor = None
         line_major = None
 
