@@ -199,7 +199,7 @@ def test_insert_new_node_3(load_cache_same_due_date):
     assert list_keys == ['u', 'v', 'w','x','y', 'z']
 
 
-def test_insert_new_node_3(load_cache_same_due_date):
+def test_insert_new_node_4(load_cache_same_due_date):
     data = mock.Mock()
     data.get_tlru_cache.return_value = load_cache_same_due_date
 
@@ -218,6 +218,17 @@ def test_insert_new_node_3(load_cache_same_due_date):
 
     list_keys = tlru_use_case.list_keys(max_iter=10)
     assert list_keys == [5, 4, 3, 2, 1, 0, 'v', 'w','x','y']
+
+
+def test_set_node_exists_6(load_cache_same_due_date):
+    data = mock.Mock()
+    data.get_tlru_cache.return_value = load_cache_same_due_date
+
+    tlru_use_case = TLRU_Interaction(data)
+
+    tlru_use_case.set_node(key='x', time_now=datetime.now(), due_date=datetime(2019,1,1,0,40,0,00000), value=8)
+    list_keys = tlru_use_case.list_keys(max_iter=10)
+    assert list_keys == ['x', 'v', 'w','y', 'z']
 
 
 def test_move_node_to_rigth_tail_same_due_date(load_cache_same_due_date):
