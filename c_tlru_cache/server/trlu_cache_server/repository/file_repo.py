@@ -13,9 +13,6 @@ from ..data_structures import cache_nodes  # Intialli is a heap, this is a wrap 
 
 file_name = 'cache_data.pickle'
 
-# Node are not deleted from memory, only marked. This Count the deleted nodes, to substract from len(cache_node)
-nodes_deleted = None  
-
 # State of cache, start at 0, and increment by 1
 counter = None
 
@@ -80,15 +77,6 @@ def save_tlru_cache():
             pickle.dump(_cache.setters, file_out, protocol=-1)
     except Exception as e:
         logging.error(f"Cache didn't save to file {e}")
-
-
-def get_cache_len():
-    """
-    Return the true cache's length
-    """
-    global nodes_deleted
-
-    return cache_nodes.get_len(_cache.priority_structure) - nodes_deleted
 
 
 def _conf_master_server_cache():

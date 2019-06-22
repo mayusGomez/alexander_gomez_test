@@ -5,8 +5,12 @@ class CacheJsonDecoder(json.JSONDecoder):
     def default(self, data):
         try:
             to_serialize = {
-                'type': data.value,
-                'data': data.data
+                'type': data.type,
+                'data': {
+                    'key': data.data.key,
+                    'value': data.data.value,
+                    'minutes': data.data.minutes
+                }
             }
             return to_serialize
         except AttributeError:

@@ -8,3 +8,4 @@ class TLRU_Cache:
         self.server_status = server_status  # True or False to accept or reject request
         self.data_state = data_state  # Data structure to save the server state 
                                       # (each "set" or "get" is a new state), for pop() either ends
+

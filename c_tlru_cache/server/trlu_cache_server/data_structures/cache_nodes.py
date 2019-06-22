@@ -1,7 +1,7 @@
 """
 This implimentations is a wrap of Python heapq, for the moment is the selected structure 
 for admin the cahce priority
-This is a detail, not interact with uses cases
+This is a detail
 """
 
 import heapq
@@ -9,10 +9,14 @@ import logging
 
 REMOVED = '<removed-task>'
 
+# Node are not deleted from memory, only marked. This Count the deleted nodes, to substract from len(cache_node)
+_nodes_deleted = 0  
+
+
 def initial_structure():
     """
     Empty initial structure
-    """
+    """ 
     return []
 
 
@@ -44,10 +48,21 @@ def get_len(priority_structure=None):
         return 0
 
 
+def get_structure_len(priority_structure):
+    """
+    Return the true cache's length
+    """
+    global _nodes_deleted
+
+    return cache_nodes.get_len(.priority_structure) - _nodes_deleted
+
+
 def remove_node(priority_structure, node):
     """
     Mark the node as '<removed-task>'
     """
+    global _nodes_deleted
+    _nodes_deleted += 1
     node.key = REMOVED
 
 
@@ -57,6 +72,12 @@ def pop_node(priority_structure):
     """
     return heapq.heappop(priority_structure)
 
+
+def push_node(priority_structure, node):
+    """
+    Add a node to the structure
+    """
+    heapq.heappush(priority_structure, node)
 
 def get_n_largest(n , iterable, key=None):
     """

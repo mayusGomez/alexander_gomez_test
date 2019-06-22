@@ -1,4 +1,5 @@
 import logging
+from trlu_cache_server.repository import file_repo
 
 from  trlu_cache_server.web_socket import server_master
 
@@ -13,6 +14,8 @@ class CacheApp:
             format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
         )
         if self.settings['SERVER']['type'] == 'master':
+            file_repo.init_master()
             server_master.execute(self.settings)
         else:
+            file_repo.init_slave()
             logging.info(f"Only work for master")
