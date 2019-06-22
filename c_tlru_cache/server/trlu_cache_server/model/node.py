@@ -1,9 +1,8 @@
 
 class Node:
-    def __init__(self, key=None, time_stamp=None, due_date=None, value=None, next_node=None, previous_node=None):
-        self.key = key
-        self.time_stamp = time_stamp
-        self.due_date = due_date
-        self.value = value
-        self.next_node = next_node
-        self.previous_node = previous_node
+    def __init__(self, key=None, time_stamp=None, due_date=None, value=None, state=None, priority=none):
+        self.key = key                  # Cache's key
+        self.time_stamp = time_stamp    # Datetime.now() of Master server
+        self.due_date = due_date        # Due date defined by Master server
+        self.value = value              # Cache's data
+        self.state = state              # State of teh data (counter)
