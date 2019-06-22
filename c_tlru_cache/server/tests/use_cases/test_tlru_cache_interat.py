@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 
 from ...trlu_cache_server.model.tlru_cache import TLRU_Cache
 from ...trlu_cache_server.model.node import Node
-from ...trlu_cache_server.use_cases.tlru_interact import TLRU_Interaction
+# from ...trlu_cache_server.use_cases.tlru_interact import TLRU_Interaction
 from ...trlu_cache_server.use_cases.response import Response
 from ...trlu_cache_server.use_cases.constants import DAYS_TO_ADD_NODE_WITHOUT_DUE_DATE
 
@@ -142,6 +142,10 @@ def load_cache():
     return tlru
 
 
+
+
+
+"""
 def test_insert_new_node_1(load_cache_same_due_date):
     data = mock.Mock()
     data.get_tlru_cache.return_value = load_cache_same_due_date
@@ -411,7 +415,7 @@ def test_get_item_with_re_order_data_fail(load_cache):
 
 
 
-"""
+
 def test_set_items(load_cache):
     data = mock.Mock()
     data.get_tlru_cache.return_value = load_cache

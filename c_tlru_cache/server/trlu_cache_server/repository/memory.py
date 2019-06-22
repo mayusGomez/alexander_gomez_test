@@ -1,3 +1,7 @@
+"""
+Cache in memory, fast access but not recovery data
+"""
+
 from ..model.tlru_cache import TLRU_Cache
 
 
@@ -21,3 +25,7 @@ def _load_cache():
 def get_tlru_cache():
     global _cache
     return  _cache
+
+
+def save_tlru_cache():
+    pass

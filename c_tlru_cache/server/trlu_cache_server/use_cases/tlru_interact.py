@@ -5,6 +5,14 @@ from ..model.node import Node
 from .constants import DAYS_TO_ADD_NODE_WITHOUT_DUE_DATE, NODES_LIMIT_CUANTITY
 
 
+class TLRU_MasterInteraction:
+
+    def __init__(self, data):
+        self.data = data
+
+
+
+'''
 class TLRU_Interaction:
 
     def __init__(self, data):
@@ -191,3 +199,4 @@ class TLRU_Interaction:
             node = node.previous_node
 
         return keys
+'''
