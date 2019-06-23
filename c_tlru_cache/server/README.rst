@@ -40,7 +40,7 @@ CORE Implementation
 * setters: Dictionary (Map) to retrieve a node with O(1). 
 * server_status: Boolean value to define the availability of a server
 * data_state: Doubly linked list for each GET or SET in any server, the master define the new state (consecutive), add the node to this structure and inform to all slaves. This structure allow to an slave identify if it is syncronized, when detect a problem the slave request to the server for and update to restore his data. A doubly linked list is for clean the structure (remove from left) and add new state to the end.
-* priority_structure: In this implementation a Python heapq structure. The implementation is by a Wrap in case of replace in a new version. This structure allow to remove the next node quickly and add a new node. The priority to remove is determined by the due date and state. When a SET operation will remove an existing node, the structure not remove the node, intead of this the logic mark the node with a "REMOVED" label, this is beacause a heap structure is optimized to remove the first node.
+* priority_structure: In this implementation a Python heapq structure is used. The implementation is by a Wrap in case of replace in a new version. This structure allow to remove the next node quickly and add a new node. The priority to remove is determined by the due date and state. When a SET operation will remove an existing node, the structure not remove the node, intead of this the logic mark the node with a "REMOVED" label, this is beacause a heap structure is optimized to remove the first node.
 
 3. use_cases.constants: 
 
@@ -53,14 +53,14 @@ Details Implementations
 
 1. data_structure.cache_nodes: This is a Wrap for the node.priority_structure, implements a Python Heapq.
 
-2. repository.file_repo: This implement the storage to file the cache data, only save de Dictionary. Implemente the possibility to start from the dile data to cover from failure. Implement a not effient pickle structure, not recommended for big data. Every new node or remove node from node.setters make a disk write.
+2. repository.file_repo: This implement the storage to file the cache data, only save de Dictionary. Make the possibility to start from file data and recover from failure. Implement a not efficient pickle structure, not recommended for big data. Every new node or remove node from node.setters make a disk write.
 
-3. web_socket.server.master: This logic execute two servers for Master. 
+3. web_socket.server_master: This logic execute two servers for Master. 
 
 * Web Socket serve 01: Listen for client requests (this connection only live while the operation)
 * Web Socket serve 02: Listen for slaves connection. This is an open channel to broadcast the state to all slaves.
 
-4. web_socket.server_slave: This logic execute one server and make a new connection to the master for receive the messages to update the cache's state. Only the master is responsible for add or remove a node from the cache. Is the master the responsible to manage the priority of the nodes and inform to all slaves.
+4. web_socket.server_slave: This logic execute one server for cliente, and make a new connection to the master for receive the messages to update the cache's state. Only the master is responsible for add or remove a node from the cache. Is the master the responsible to manage the priority of the nodes and inform to all slaves.
 
 4. app: This file allow to start the server instance from the settings configuration.
 
@@ -71,7 +71,6 @@ Server execution
 To start a server only is necessary to write a file that import the library's CacheApplibrary and run the app like this:
 
 ... code-block:: python
-
     from trlu_cache_server.app import CacheApp
     settings = {
         'LOGGING': logging.DEBUG,
@@ -82,11 +81,9 @@ To start a server only is necessary to write a file that import the library's Ca
             'port_to_clients': 8766
         }
     }
-
     def main():
         app = CacheApp(settings)
         app.run()
-
     if __name__ == "__main__":
         main()
 
