@@ -16,13 +16,14 @@ class TLRU_MasterInteraction:
 
     async def broadcast_to_slaves(self, slaves, rm_node):
         """
+        Send to slaves the new state and the deleted node 
         parameters:
             slaves: dict with key = slaves(websocket) to send new state
             rm_node: node removed
         """
-        def notify_to_all(slaves, slave, slave_state, last_state, rm_node):
+        async def notify_to_all(slaves, slave, slave_state, last_state, rm_node):
             """
-            Process the broadcast to slave and update slave state (syncronized)
+            Process the broadcast to slaves, and update slave state (syncronized)
             parameters:
                 slaves: dict wirth slaves
                 slave: slave to send
@@ -35,14 +36,14 @@ class TLRU_MasterInteraction:
                     'value': last_state.value,
                     'due_date': last_state.due_date,
                     'due_date_stamp': last_state.due_date_stamp,
-                    'state'last_state.state,
+                    'state':last_state.state,
                 },
                 'removed_node': { 
                     'key': rm_node.key if rm_node else None,
                     'value': rm_node.value if rm_node else None,
                     'due_date': rm_node.due_date if rm_node else None,
                     'due_date_stamp': rm_node.due_date_stamp if rm_node else None,
-                    'state'rm_node.state if rm_node else None,
+                    'state':rm_node.state if rm_node else None,
                 }
             }
             await slave.send(json.dumps(get_last_state()))
@@ -82,7 +83,7 @@ class TLRU_MasterInteraction:
         Return the node
         async broadcast to slaves
         """
-        logging.debug(f"Arrive node data: { data }")
+        logging.debug(f"Arrive node data: { node_message }")
         cache = self.data.get_tlru_cache()
 
         # If the 'minutes' data is None, then assign a big due_date, else add the timedelta to now
@@ -96,7 +97,7 @@ class TLRU_MasterInteraction:
 
         node = Node(
             key = node_message['key'],
-            date_stamp = date_now,
+            date_stamp = date_now.isoformat(),
             due_date = due_date.isoformat(),
             due_date_stamp = datetime.timestamp(due_date) ,
             value = node_message['value'],
@@ -106,34 +107,90 @@ class TLRU_MasterInteraction:
         rm_node = None
 
         if node_message['key'] in cache.setters:
+            logging.debug(f"SET: The key is in setters")
             # Remove node from priority structure
             cache_nodes.remove_node(cache.priority_structure, cache.setters[node_message['key']])          
             # replace in setters
             cache.setters[node_message['key']] = node
             # Add node to priority_structure
-            cache_nodes.push_node(node)
+            cache_nodes.push_node(cache.priority_structure, node)
             cache.data_state.append(node)
         else:
+            logging.debug(f"SET: The key is not in setters")
             # Verify len of structure for remove a node
             if len(cache.setters) >= NODES_LIMIT_CUANTITY:
                 rm_node = cache_nodes.pop_node(cache.priority_structure)
                 del cache.setters[rm_node.key]
 
-                # Add new node
-                cache.setters[node.key] = node
-                cache_nodes.push_node(cache.priority_structure, node)
-                cache.data_state.append(node)
+            # Add new node
+            cache.setters[node.key] = node
+            cache_nodes.push_node(cache.priority_structure, node)
+            cache.data_state.append(node)
 
         # Save to disk
         self.data.save_tlru_cache()
 
-        # Broadcats to slaves:
-        loop = asyncio.get_event_loop()
-        loop.create_task(self.broadcast_to_slaves(slaves, rm_node))
+        # TODO: Broadcats to slaves:
+        # loop = asyncio.get_event_loop()
+        # loop.create_task(self.broadcast_to_slaves(slaves, rm_node))
         return node
                
+    async def get_node_from_client(self, node_message, date_now, slaves=None):
+        """
+        Receive:
+            node_message : key from client
+            date_now : datetime.now
+            slaves: dict with the slaves to broadcast info and new state
+
+        Verify if the node is in setters
+            if it is:
+                create a new state
+                move the node to a better position
+        Return the node
+        async broadcast to slaves
+        """
+        logging.debug(f"Arrive node data: { node_message }")
+        cache = self.data.get_tlru_cache()
+        node = cache.setters.get(node_message['key'])
+        logging.debug(f"Compare timestamp, due_date_stam:{node.due_date_stamp} datateime from ts:{datetime.fromtimestamp( node.due_date_stamp )}")
+        if node and datetime.fromtimestamp( node.due_date_stamp ) >= datetime.now() :
+            # TODO: implement logic to move to a better position and broadcast
+            return node
+        else:
+            return None
 
 
+    async def get_slice_state(self, state):
+        """
+        When the slave is out of sync, it requests the states from the state of the slave
+        Return state from a point
+        """
+        # TODO: Implement
+        return {'data': None}
 
+    async def set_state_slave(self, slave, state):
+        """
+        When the slave is updated, update his state in master
+        Update the local slave's state
+        """
+        # TODO: Implement
+        return {'data': None}
 
+    async def set_node_from_slave(self, node_message, date_now, slaves=None):
+        """
+        The slave send the node to master
+        The master is in charge to set the date_stamp and due date, and ordered in the priority_structure
+        Broadcast to slaves the new node an node deleted
+        The slaves servers don't have priority_structure, only have setters (dict) and state
+        """
+        # TODO: Implement
+        return {'data': None}
 
+        
+    async def get_node_from_slave(self, node_message, date_now, slaves=None):
+        """
+        The slave inform to Master a get request from a client
+        The master update the priority and send new state to slaves
+        """
+        # TODO: Implement
+        return {'data': None}

@@ -1,7 +1,7 @@
 import logging
 from trlu_cache_server.repository import file_repo
 
-from  trlu_cache_server.web_socket import server_master
+from  trlu_cache_server.web_socket import server_master, server_slave
 
 
 class CacheApp:
@@ -18,4 +18,4 @@ class CacheApp:
             server_master.execute(self.settings)
         else:
             file_repo.init_slave()
-            logging.info(f"Only work for master")
+            server_slave.execute(self.settings)

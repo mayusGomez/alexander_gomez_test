@@ -54,7 +54,7 @@ def get_structure_len(priority_structure):
     """
     global _nodes_deleted
 
-    return cache_nodes.get_len(.priority_structure) - _nodes_deleted
+    return cache_nodes.get_len(priority_structure) - _nodes_deleted
 
 
 def remove_node(priority_structure, node):
