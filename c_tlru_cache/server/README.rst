@@ -1,6 +1,6 @@
-===================
-TLRU cache package
-===================
+========================================================================================================================================
+TLRU cache package (A second branch (refactoring) in this repo change for a WebSocket server, and improve the priority node management.
+========================================================================================================================================
 
 Library for a TLRU(Least Recently Used) cache. This library work with a web server and accept REST request:
 
@@ -23,9 +23,6 @@ Software Components
 1. Model: Basic structures for manage the data
 2. use_cases: Implement the logic for "set" and "get" the data from the cache. TODO: It's necessary to improve the data structure for Nodes, so that the search will be faster. The cache logic allow to order the keys with the due_time of each node.
 
-******************************
-Geo Distributed Implementation
-******************************
 
 ******************************
 Geo Distributed Implementation
