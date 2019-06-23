@@ -70,7 +70,8 @@ Server execution
 
 To start a server only is necessary to write a file that import the library's CacheApplibrary and run the app like this:
 
-... code-block:: python
+.. code-block:: python
+
     from trlu_cache_server.app import CacheApp
     settings = {
         'LOGGING': logging.DEBUG,
