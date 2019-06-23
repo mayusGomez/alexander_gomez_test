@@ -135,6 +135,7 @@ This software allow to import and define a configuration with:
 With this information the software can to manage the connection to the cache and select the best option (or available) to connect. To use the software only it's necessary the next:
 
 .. code-block:: python
+
     from tlru_cache_client import cache
     settings = {
         'main_connection': 'server_b',
@@ -149,13 +150,10 @@ With this information the software can to manage the connection to the cache and
             }
         }
     }
-
     # Define configuration
     cache.set_conf(settings)
-
     # In another part in the software, implement this to set a new data cache
     cache_data = cache.set_cache(key=key, value=data, minutes_timeout=120)
-
     # To get the data:
     cache_data = cache.get_cache(key=key)
 
