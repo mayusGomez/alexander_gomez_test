@@ -39,7 +39,7 @@ CORE Implementation
 
 * setters: Dictionary (Map) to retrieve a node with O(1). 
 * server_status: Boolean value to define the availability of a server
-* data_state: Doubly linked list for each GET or SET in the any server, the master define the new state (consecutive), add the node to this structure and inform to all slaves. This structure allow to an slave identify is is syncronized, when detect a problem the slave request to the server for and update to restore his data.
+* data_state: Doubly linked list for each GET or SET in any server, the master define the new state (consecutive), add the node to this structure and inform to all slaves. This structure allow to an slave identify if it is syncronized, when detect a problem the slave request to the server for and update to restore his data. A doubly linked list is for clean the structure (remove from left) and add new state to the end.
 * priority_structure: In this implementation a Python heapq structure. The implementation is by a Wrap in case of replace in a new version. This structure allow to remove the next node quickly and add a new node. The priority to remove is determined by the due date and state. When a SET operation will remove an existing node, the structure not remove the node, intead of this the logic mark the node with a "REMOVED" label, this is beacause a heap structure is optimized to remove the first node.
 
 3. use_cases.constants: 
